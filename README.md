@@ -42,6 +42,12 @@ npm install
 npm run dev
 ```
 
+## Deployment
+
+The web app (`web/`) is deployed on Vercel with Root Directory set to `web` and the
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_URL`, and
+`SUPABASE_SERVICE_ROLE_KEY` environment variables configured to match `web/.env.local`.
+
 ## Next steps
 
 - Create a Supabase project and apply the schema from `supabase/schema.sql`.
