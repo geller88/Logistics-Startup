@@ -1,0 +1,7 @@
+requests
+python-dotenv
+beautifulsoup4
+lxml
+openai
+anthropic
+psycopg2-binary

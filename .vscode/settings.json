@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"/Users/geller/Documents/AI/Logistics Startup market/web\" && set -a && source \\.env\\.local && node - <<'NODE'\nconst \\{ createClient \\} = require\\('@supabase/supabase-js'\\);\nconst url = process\\.env\\.SUPABASE_URL \\|\\| process\\.env\\.NEXT_PUBLIC_SUPABASE_URL;\nconst key = process\\.env\\.SUPABASE_SERVICE_ROLE_KEY;\nconsole\\.log\\('url', !!url, url && url\\.slice\\(0, 40\\)\\);\nconsole\\.log\\('key', !!key, key && key\\.slice\\(0, 20\\)\\);\n\\(async \\(\\) => \\{\n  const supabase = createClient\\(url, key, \\{\n    auth: \\{ persistSession: false, autoRefreshToken: false \\}\n  \\}\\);\n  const \\{ data, error \\} = await supabase\\.from\\('companies'\\)\\.select\\('id'\\)\\.limit\\(1\\);\n  console\\.log\\('error', error\\);\n  console\\.log\\('data', data\\);\n\\}\\)\\(\\);\nNODE$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

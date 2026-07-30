@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistics Startup Market</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #f4f7fb; color: #1f2937; }
+    header { background: #0f172a; color: #fff; padding: 24px 20px; text-align: center; }
+    header h1 { margin: 0; font-size: 1.8rem; }
+    main { max-width: 1080px; margin: 24px auto; padding: 0 20px; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08); padding: 24px; margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; }
+    input, select, button { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 1rem; }
+    button { background: #2563eb; color: #fff; border: none; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #1d4ed8; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    table { width: 100%; border-collapse: collapse; margin-top: 18px; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    th { background: #f8fafc; font-weight: 700; }
+    .empty { color: #64748b; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Logistics Startup Market</h1>
+    <p style="margin: 8px 0 0; font-size: 0.95rem; color: #cbd5e1;">Launchpad für Logistik-Startup-Daten und Marktanalyse.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2 style="margin-top: 0;">Suche nach Logistik-Startups</h2>
+      <div class="grid">
+        <div>
+          <label for="country">Land</label>
+          <select id="country">
+            <option value="CH">🇨🇭 Schweiz</option>
+            <option value="DE">🇩🇪 Deutschland</option>
+            <option value="AT">🇦🇹 Österreich</option>
+            <option value="FR">🇫🇷 Frankreich</option>
+            <option value="IT">🇮🇹 Italien</option>
+          </select>
+        </div>
+        <div>
+          <label for="region">Region / Stadt</label>
+          <input id="region" type="text" placeholder="z.B. Zürich, München, Wien" />
+        </div>
+      </div>
+      <button onclick="runSearch()">Markt durchsuchen</button>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top: 0;">Ergebnisse</h2>
+      <div id="results" class="empty">Klicke auf "Markt durchsuchen", um die Suche zu starten.</div>
+    </section>
+  </main>
+
+  <script>
+    const sampleData = [
+      { name: 'CargoFlow AG', city: 'Zürich', country: 'CH', focus: 'Letzte Meile', website: 'https://example.com' },
+      { name: 'Freightly GmbH', city: 'München', country: 'DE', focus: 'Speditionssoftware', website: 'https://example.com' },
+      { name: 'LastMile One', city: 'Wien', country: 'AT', focus: 'Urban Delivery', website: 'https://example.com' }
+    ];
+
+    function runSearch() {
+      const country = document.getElementById('country').value;
+      const region  = document.getElementById('region').value.trim().toLowerCase();
+      const filtered = sampleData.filter(item => {
+        const matchCountry = item.country === country;
+        const matchRegion = region ? item.city.toLowerCase().includes(region) : true;
+        return matchCountry && matchRegion;
+      });
+
+      const container = document.getElementById('results');
+      if (!filtered.length) {
+        container.className = 'empty';
+        container.innerHTML = 'Keine Startups gefunden. Versuche einen anderen Ort oder ein anderes Land.';
+        return;
+      }
+
+      container.className = '';
+      container.innerHTML = '<table><thead><tr><th>Name</th><th>Stadt</th><th>Fokus</th><th>Website</th></tr></thead><tbody>' +
+        filtered.map(item => `
+          <tr>
+            <td>${item.name}</td>
+            <td>${item.city}</td>
+            <td>${item.focus}</td>
+            <td><a href="${item.website}" target="_blank">Link</a></td>
+          </tr>
+        `).join('') +
+        '</tbody></table>';
+    }
+  </script>
+</body>
+</html>

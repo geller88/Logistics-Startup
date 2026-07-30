@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+pipeline/.env
+web/.env.local
+.venv/
+__pycache__/
+*.pyc
+.next/

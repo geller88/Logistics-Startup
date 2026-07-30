@@ -1,0 +1,14 @@
+{
+  "name": "logistics-startup-market",
+  "version": "1.0.0",
+  "description": "Logistics Startup Market tool with a simple search UI and local static server.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
