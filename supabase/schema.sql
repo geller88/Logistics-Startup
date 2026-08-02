@@ -33,6 +33,9 @@ alter table if exists public.companies add column if not exists product_status t
 alter table if exists public.companies add column if not exists product_timeline text;
 alter table if exists public.companies add column if not exists has_product boolean default false;
 alter table if exists public.companies add column if not exists category text default 'Other';
+alter table if exists public.companies add column if not exists address text;
+alter table if exists public.companies add column if not exists zip_code text;
+alter table if exists public.companies add column if not exists phone text;
 
 create index if not exists idx_companies_category on companies(category);
 

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 
 const CATEGORIES = [
@@ -21,6 +22,7 @@ function categoryClass(category) {
 }
 
 export default function CompaniesPage() {
+  const router = useRouter();
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -185,7 +187,11 @@ export default function CompaniesPage() {
                   const catClass = categoryClass(company.category);
 
                   return (
-                    <article key={company.id} className={`company-card ${catClass}`}>
+                    <article
+                      key={company.id}
+                      className={`company-card company-card-clickable ${catClass}`}
+                      onClick={() => router.push(`/companies/${company.id}`)}
+                    >
                       <span className={`category-badge ${catClass}`}>
                         {company.category || 'Other'}
                       </span>
@@ -201,7 +207,13 @@ export default function CompaniesPage() {
                       {isLoggedIn ? (
                         <div className="company-footer">
                           {company.website ? (
-                            <a href={company.website} target="_blank" rel="noreferrer" className="link-button">
+                            <a
+                              href={company.website}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="link-button"
+                              onClick={(event) => event.stopPropagation()}
+                            >
                               Visit website
                             </a>
                           ) : (
@@ -210,7 +222,7 @@ export default function CompaniesPage() {
                         </div>
                       ) : (
                         <div className="company-footer">
-                          <span className="meta-text">Register to see full profile and contact details.</span>
+                          <span className="meta-text">Click to view profile and register for full details.</span>
                         </div>
                       )}
                     </article>

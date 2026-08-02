@@ -317,6 +317,62 @@ input {
 .company-card.cat-sgl { border-top-color: var(--cat-sgl); }
 .company-card.cat-other { border-top-color: var(--cat-other); }
 
+.company-card-detail {
+  gap: 20px;
+  max-width: 720px;
+}
+
+.company-card-clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.company-card-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(58, 53, 44, 0.1);
+}
+
+.company-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.company-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 6px;
+}
+
+.company-detail-header h1 {
+  margin: 0 0 6px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin: 8px 0 24px;
+}
+
+.detail-grid h3 {
+  margin: 0 0 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.detail-grid p {
+  margin: 0;
+  color: var(--text);
+}
+
 .company-card-header {
   display: flex;
   align-items: flex-start;

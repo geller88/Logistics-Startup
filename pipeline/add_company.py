@@ -20,9 +20,9 @@ import argparse
 from load_companies import CATEGORY_NAMES, generate_profile_embedding, insert_company, normalize_profile
 
 
-def add_company(name, domain, website, description, country='', hq_city='', founding_year=None,
-                 funding_stage='', status='active', category='Other', interesting=True,
-                 has_product=True, product_status='', product_timeline=''):
+def add_company(name, domain, website, description, country='', hq_city='', address='', zip_code='',
+                 phone='', founding_year=None, funding_stage='', status='active', category='Other',
+                 interesting=True, has_product=True, product_status='', product_timeline=''):
     item = {'title': name, 'description': description, 'link': website or f'https://{domain}'}
     raw_profile = {
         'name': name,
@@ -32,6 +32,9 @@ def add_company(name, domain, website, description, country='', hq_city='', foun
         'founding_year': founding_year,
         'country': country,
         'hq_city': hq_city,
+        'address': address,
+        'zip_code': zip_code,
+        'phone': phone,
         'funding_stage': funding_stage,
         'status': status,
         'interesting': interesting,
@@ -57,6 +60,9 @@ if __name__ == '__main__':
     parser.add_argument('--description', required=True)
     parser.add_argument('--country', default='')
     parser.add_argument('--hq-city', default='')
+    parser.add_argument('--address', default='')
+    parser.add_argument('--zip-code', default='')
+    parser.add_argument('--phone', default='')
     parser.add_argument('--founding-year', type=int, default=None)
     parser.add_argument('--funding-stage', default='')
     parser.add_argument('--status', default='active')
@@ -72,6 +78,9 @@ if __name__ == '__main__':
         description=args.description,
         country=args.country,
         hq_city=args.hq_city,
+        address=args.address,
+        zip_code=args.zip_code,
+        phone=args.phone,
         founding_year=args.founding_year,
         funding_stage=args.funding_stage,
         status=args.status,

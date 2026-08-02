@@ -186,6 +186,9 @@ def normalize_profile(profile, item):
         'founding_year': profile.get('founding_year') or None,
         'country': profile.get('country', ''),
         'hq_city': profile.get('hq_city', ''),
+        'address': profile.get('address', ''),
+        'zip_code': profile.get('zip_code', ''),
+        'phone': profile.get('phone', ''),
         'funding_stage': profile.get('funding_stage', ''),
         'status': profile.get('status', 'active') or 'active',
         'interesting': parse_bool(profile.get('interesting', False)),
@@ -250,6 +253,9 @@ The JSON object must contain these fields:
 - founding_year
 - country
 - hq_city
+- address (street address of headquarters if known, otherwise empty string)
+- zip_code (postal/zip code of headquarters if known, otherwise empty string)
+- phone (public contact phone number if known, otherwise empty string)
 - funding_stage
 - status
 - interesting
@@ -299,6 +305,9 @@ Respond with JSON object containing these fields:
 - founding_year
 - country
 - hq_city
+- address (street address of headquarters if known, otherwise empty string)
+- zip_code (postal/zip code of headquarters if known, otherwise empty string)
+- phone (public contact phone number if known, otherwise empty string)
 - funding_stage
 - status
 - interesting
