@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
             <nav className="site-nav">
               <Link href="/companies">Monitor</Link>
               <Link href="/search">Discover</Link>
-              <Link href="/premium">Premium</Link>
+              {/* Premium nav link hidden until first test runs are done — re-add <Link href="/premium">Premium</Link> to unhide */}
               <Link href="/auth" className="nav-cta">
                 Register
               </Link>

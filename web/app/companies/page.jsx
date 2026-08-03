@@ -222,7 +222,7 @@ export default function CompaniesPage() {
                         </div>
                       ) : (
                         <div className="company-footer">
-                          <span className="meta-text">Click to view profile and register for full details.</span>
+                          <span className="meta-text">Click to view profile and <strong>register</strong> for full details.</span>
                         </div>
                       )}
                     </article>
