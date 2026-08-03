@@ -27,6 +27,9 @@ export default function RootLayout({ children }) {
           <div className="content-wrapper">{children}</div>
           <footer className="site-footer">
             <p>Built for logistics startup discovery, registration gating, and premium research.</p>
+            <p>
+              <Link href="/imprint">Imprint</Link>
+            </p>
           </footer>
         </div>
       </body>
