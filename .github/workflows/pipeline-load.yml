@@ -2,7 +2,7 @@ name: Pipeline Load
 
 on:
   schedule:
-    - cron: '0 8 * * 1,4' # every Monday and Thursday at 08:00 UTC
+    - cron: '17 7 * * 1,4' # every Monday and Thursday at 07:17 UTC (off the busy top-of-hour slot)
   workflow_dispatch: {}
 
 jobs:
