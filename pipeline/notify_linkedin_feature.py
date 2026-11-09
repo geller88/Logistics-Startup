@@ -79,7 +79,7 @@ def mark_as_featured(company_id):
     response.raise_for_status()
 
 
-def build_email_html(company):
+def build_linkedin_draft(company):
     name = company.get('name', 'Unknown')
     description = company.get('description') or ''
     category = company.get('category') or 'Other'
@@ -89,7 +89,7 @@ def build_email_html(company):
     website = company.get('website') or ''
     location = ', '.join(filter(None, [hq_city, country])) or 'Location unknown'
 
-    linkedin_draft = (
+    return (
         f"Spotlight: {name} ({category})\n\n"
         f"{description}\n\n"
         f"📍 {location}"
@@ -97,6 +97,19 @@ def build_email_html(company):
         + (f"\n🔗 {website}" if website else '')
         + "\n\n#LogisticsInnovation #SupplyChain #StartupSpotlight"
     )
+
+
+def build_email_html(company):
+    name = company.get('name', 'Unknown')
+    description = company.get('description') or ''
+    category = company.get('category') or 'Other'
+    country = company.get('country') or ''
+    hq_city = company.get('hq_city') or ''
+    funding_stage = company.get('funding_stage') or ''
+    website = company.get('website') or ''
+    location = ', '.join(filter(None, [hq_city, country])) or 'Location unknown'
+    linkedin_draft = build_linkedin_draft(company)
+    actions_url = os.getenv('LINKEDIN_POST_WORKFLOW_URL', 'https://github.com/geller88/Logistics-Startup/actions/workflows/linkedin-post.yml')
 
     return f"""
     <div style="font-family: sans-serif; max-width: 600px;">
@@ -108,6 +121,7 @@ def build_email_html(company):
       <p>{description}</p>
       <h3>Suggested LinkedIn post</h3>
       <pre style="white-space: pre-wrap; background: #f4efe4; padding: 16px; border-radius: 8px; font-family: sans-serif;">{linkedin_draft}</pre>
+      <p>To publish this post on LinkedIn: open <a href="{actions_url}">the LinkedIn Post workflow</a> and click <em>Run workflow</em>.</p>
     </div>
     """
 

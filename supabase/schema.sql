@@ -37,6 +37,7 @@ alter table if exists public.companies add column if not exists address text;
 alter table if exists public.companies add column if not exists zip_code text;
 alter table if exists public.companies add column if not exists phone text;
 alter table if exists public.companies add column if not exists linkedin_featured_at timestamp with time zone;
+alter table if exists public.companies add column if not exists linkedin_posted_at timestamp with time zone;
 
 create index if not exists idx_companies_category on companies(category);
 
