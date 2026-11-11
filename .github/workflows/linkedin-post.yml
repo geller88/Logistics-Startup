@@ -1,6 +1,8 @@
 name: LinkedIn Post
 
 on:
+  schedule:
+    - cron: '43 17 * * 0' # every Sunday ~17:43 UTC (evening in Austria)
   workflow_dispatch: {}
 
 jobs:
