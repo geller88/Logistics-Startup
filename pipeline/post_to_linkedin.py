@@ -18,6 +18,7 @@ from datetime import datetime, timezone
 
 import requests
 
+from linkedin_card import render_card
 from notify_linkedin_feature import SUPABASE_REST_URL, _headers, build_linkedin_draft
 
 API_VERSION = os.getenv('LINKEDIN_API_VERSION', '202506')
@@ -34,7 +35,7 @@ def pick_company():
         f'{SUPABASE_REST_URL}/companies',
         headers=_headers(),
         params={
-            'select': 'id,name,description,category,country,hq_city,funding_stage,website',
+            'select': 'id,name,domain,description,category,country,hq_city,funding_stage,website',
             'linkedin_featured_at': 'not.is.null',
             'linkedin_posted_at': 'is.null',
             'order': 'linkedin_featured_at.desc',
@@ -60,7 +61,46 @@ def person_urn(token):
     return f'urn:li:person:{person_id}'
 
 
-def publish(token, author, text):
+def upload_image(token, author, png_bytes):
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'LinkedIn-Version': API_VERSION,
+        'X-Restli-Protocol-Version': '2.0.0',
+    }
+    init = requests.post(
+        'https://api.linkedin.com/rest/images?action=initializeUpload',
+        headers=headers,
+        json={'initializeUploadRequest': {'owner': author}},
+        timeout=30,
+    )
+    if not init.ok:
+        raise RuntimeError(f'LinkedIn image init error {init.status_code}: {init.text}')
+    value = init.json()['value']
+    upload = requests.put(
+        value['uploadUrl'],
+        headers={'Authorization': f'Bearer {token}'},
+        data=png_bytes,
+        timeout=60,
+    )
+    upload.raise_for_status()
+    return value['image']
+
+
+def publish(token, author, text, image_urn=None, image_alt=''):
+    body = {
+        'author': author,
+        'commentary': escape_commentary(text),
+        'visibility': 'PUBLIC',
+        'distribution': {
+            'feedDistribution': 'MAIN_FEED',
+            'targetEntities': [],
+            'thirdPartyDistributionChannels': [],
+        },
+        'lifecycleState': 'PUBLISHED',
+        'isReshareDisabledByAuthor': False,
+    }
+    if image_urn:
+        body['content'] = {'media': {'id': image_urn, 'altText': image_alt}}
     response = requests.post(
         'https://api.linkedin.com/rest/posts',
         headers={
@@ -69,18 +109,7 @@ def publish(token, author, text):
             'X-Restli-Protocol-Version': '2.0.0',
             'Content-Type': 'application/json',
         },
-        json={
-            'author': author,
-            'commentary': escape_commentary(text),
-            'visibility': 'PUBLIC',
-            'distribution': {
-                'feedDistribution': 'MAIN_FEED',
-                'targetEntities': [],
-                'thirdPartyDistributionChannels': [],
-            },
-            'lifecycleState': 'PUBLISHED',
-            'isReshareDisabledByAuthor': False,
-        },
+        json=body,
         timeout=30,
     )
     if not response.ok:
@@ -108,7 +137,11 @@ def main():
         print('Nothing to post: no emailed feature without a LinkedIn post.')
         return
 
-    post_id = publish(token, person_urn(token), build_linkedin_draft(company))
+    author = person_urn(token)
+    image_urn = upload_image(token, author, render_card(company))
+    post_id = publish(
+        token, author, build_linkedin_draft(company), image_urn, f"Startup spotlight: {company['name']}"
+    )
     mark_posted(company['id'])
     print(f"Posted {company['name']} to LinkedIn ({post_id}).")
 

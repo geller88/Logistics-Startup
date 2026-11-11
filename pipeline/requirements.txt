@@ -5,3 +5,4 @@ lxml
 openai
 anthropic
 psycopg2-binary
+Pillow

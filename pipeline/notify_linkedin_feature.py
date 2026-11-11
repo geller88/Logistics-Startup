@@ -93,7 +93,6 @@ def build_linkedin_draft(company):
         f"Spotlight: {name} ({category})\n\n"
         f"{description}\n\n"
         f"📍 {location}"
-        + (f" · {funding_stage}" if funding_stage else '')
         + (f"\n🔗 {website}" if website else '')
         + "\n\n#LogisticsInnovation #SupplyChain #StartupSpotlight"
     )
@@ -116,7 +115,6 @@ def build_email_html(company):
       <h2>This week's LinkedIn feature: {name}</h2>
       <p><strong>Category:</strong> {category}<br>
          <strong>Location:</strong> {location}<br>
-         {'<strong>Funding:</strong> ' + funding_stage + '<br>' if funding_stage else ''}
          {'<strong>Website:</strong> <a href="' + website + '">' + website + '</a><br>' if website else ''}</p>
       <p>{description}</p>
       <h3>Suggested LinkedIn post</h3>
