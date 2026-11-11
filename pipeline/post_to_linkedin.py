@@ -9,7 +9,7 @@ Configuration:
   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY
   LINKEDIN_ACCESS_TOKEN  – OAuth token with w_member_social (+ openid/profile)
   LINKEDIN_PERSON_ID     – optional; looked up via /v2/userinfo if not set
-  LINKEDIN_API_VERSION   – optional, YYYYMM (default 202506)
+  LINKEDIN_API_VERSION   – optional, YYYYMM (default 202610)
 """
 import os
 import re
@@ -21,7 +21,7 @@ import requests
 from linkedin_card import render_card
 from notify_linkedin_feature import SUPABASE_REST_URL, _headers, build_linkedin_draft
 
-API_VERSION = os.getenv('LINKEDIN_API_VERSION', '202506')
+API_VERSION = os.getenv('LINKEDIN_API_VERSION', '202610')
 # LinkedIn "little text" reserves these characters; '#' stays unescaped for hashtags.
 _RESERVED = re.compile(r'([\\|{}@\[\]()<>*_~])')
 
