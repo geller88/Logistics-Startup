@@ -16,6 +16,7 @@ Run manually:
     python notify_linkedin_feature.py
 """
 import os
+import re
 import smtplib
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
@@ -79,6 +80,16 @@ def mark_as_featured(company_id):
     response.raise_for_status()
 
 
+MONITOR_URL = 'https://logistics-startup.vercel.app'
+BASE_HASHTAGS = ['#Logistics', '#SupplyChain', '#LogisticsInnovation', '#Startups', '#StartupSpotlight']
+
+
+def hashtags(category):
+    """Base hashtags plus one derived from the category name (e.g. Warehousing & Fulfillment -> #Warehousing #Fulfillment)."""
+    extra = [f'#{word.capitalize()}' for word in re.findall(r'[A-Za-z]+', category) if len(word) > 3 and word.lower() not in ('other', 'and')]
+    return ' '.join(dict.fromkeys(BASE_HASHTAGS + extra))
+
+
 def build_linkedin_draft(company):
     name = company.get('name', 'Unknown')
     description = company.get('description') or ''
@@ -94,7 +105,8 @@ def build_linkedin_draft(company):
         f"{description}\n\n"
         f"📍 {location}"
         + (f"\n🔗 {website}" if website else '')
-        + "\n\n#LogisticsInnovation #SupplyChain #StartupSpotlight"
+        + f"\n\nDiscover more logistics startups: {MONITOR_URL}"
+        + f"\n\n{hashtags(category)}"
     )
 
 
