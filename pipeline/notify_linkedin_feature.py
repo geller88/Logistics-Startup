@@ -80,6 +80,7 @@ def mark_as_featured(company_id):
     response.raise_for_status()
 
 
+HEADER = '📦 This week in Logistics Startup Monitoring: our featured company'
 MONITOR_URL = 'https://logistics-startup.vercel.app'
 BASE_HASHTAGS = ['#Logistics', '#SupplyChain', '#LogisticsInnovation', '#Startups', '#StartupSpotlight']
 
@@ -101,10 +102,13 @@ def build_linkedin_draft(company):
     location = ', '.join(filter(None, [hq_city, country])) or 'Location unknown'
 
     return (
+        f"{HEADER}\n\n"
         f"Spotlight: {name} ({category})\n\n"
         f"{description}\n\n"
         f"📍 {location}"
         + (f"\n🔗 {website}" if website else '')
+        + f"\n\nWhat do you think of the technology behind {name}? "
+        "Do you see use cases for it in your own area of logistics?"
         + f"\n\nDiscover more logistics startups: {MONITOR_URL}"
         + f"\n\n{hashtags(category)}"
     )
