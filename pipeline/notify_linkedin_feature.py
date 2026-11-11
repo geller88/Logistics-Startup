@@ -87,7 +87,11 @@ BASE_HASHTAGS = ['#Logistics', '#SupplyChain', '#LogisticsInnovation', '#Startup
 
 def hashtags(category):
     """Base hashtags plus one derived from the category name (e.g. Warehousing & Fulfillment -> #Warehousing #Fulfillment)."""
-    extra = [f'#{word.capitalize()}' for word in re.findall(r'[A-Za-z]+', category) if len(word) > 3 and word.lower() not in ('other', 'and')]
+    extra = [
+        f'#{word}' if word.isupper() else f'#{word.capitalize()}'
+        for word in re.findall(r'[A-Za-z]+', category)
+        if (len(word) > 3 or word.isupper()) and word.lower() not in ('other', 'and', 'smart')
+    ]
     return ' '.join(dict.fromkeys(BASE_HASHTAGS + extra))
 
 
